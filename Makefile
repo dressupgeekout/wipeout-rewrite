@@ -42,12 +42,15 @@ ifeq ($(UNAME_S), Darwin)
 
 # Linux ------------------------------------------------------------------------
 
-else ifeq ($(UNAME_S), Linux)
+else ifeq ($(UNAME_S), NetBSD)
+	C_FLAGS += $(CFLAGS) -I/usr/pkg/include -I/usr/X11R7/include
+	L_FLAGS += $(LDFLAGS) -L/usr/pkg/lib -L/usr/X11R7/lib
+
 	ifeq ($(RENDERER), GL)
 		L_FLAGS := $(L_FLAGS) -lGLEW -lGL
 	endif
 
-	L_FLAGS_SDL = -lSDL2
+	L_FLAGS_SDL = $(shell sdl2-config --libs)
 	L_FLAGS_SOKOL = -lX11 -lXcursor -pthread -lXi -ldl -lasound
 
 
